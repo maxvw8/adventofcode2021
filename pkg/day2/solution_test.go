@@ -25,7 +25,7 @@ func TestCommandParsing(t *testing.T) {
 	}
 }
 
-func TestPart1(t *testing.T) {
+func TestPart2(t *testing.T) {
 	moves := []transformation{
 		{horizontal: 5},
 		{depth: 5},
@@ -35,5 +35,5 @@ func TestPart1(t *testing.T) {
 		{horizontal: 2},
 	}
 	pos := reduce(moves)
-	assert.Equal(t, transformation{horizontal: 15, depth: 60}, pos)
+	assert.Equal(t, transformation{horizontal: 15, depth: 60, aim: 10}, pos)
 }

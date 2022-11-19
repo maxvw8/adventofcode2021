@@ -45,7 +45,17 @@ func reduce(moves []transformation) transformation {
 }
 
 func (t transformation) apply(move transformation) transformation {
-	return transformation{depth: t.depth + move.depth, horizontal: t.horizontal + move.horizontal}
+	x := transformation{
+		depth:      t.depth,
+		horizontal: t.horizontal + move.horizontal,
+		aim:        t.aim + move.depth}
+	if move.isHorizontalChange() {
+		x.depth += move.horizontal * x.aim
+	}
+	return x
+}
+func (t transformation) isHorizontalChange() bool {
+	return t.horizontal != 0
 }
 func toTransformation(line string) (transformation, error) {
 	var command string
