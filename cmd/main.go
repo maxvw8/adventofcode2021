@@ -10,7 +10,7 @@ import (
 const inputPath = "../inputs/"
 
 var problems = []advent.Problem{
-	day1.NewPart1("1.txt"),
+	day1.New("1.txt"),
 }
 
 func main() {
@@ -25,7 +25,12 @@ func main() {
 			fmt.Printf("Error parsing file %s", err)
 			os.Exit(1)
 		}
-		fmt.Printf("Result is %s", p.Solve())
+		sol, err := p.Solve()
+		if err != nil {
+			fmt.Printf("Error solving problem %s", err)
+			os.Exit(1)
+		}
+		fmt.Printf("[%s] %s", p.Name(), sol)
 	}
 
 }

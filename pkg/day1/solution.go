@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-const MaxStars = 50
+const defaultWindowSize = 3
 
 func TimesIncreased(input []int) int {
 	if len(input) == 0 {
@@ -34,7 +34,7 @@ func createWindows(input []int, windowSize int) ([][]int, error) {
 	}
 	return windows, nil
 }
-func reduce(input [][]int) []int {
+func sumUpWindows(input [][]int) []int {
 	r := make([]int, len(input))
 	for i, v := range input {
 		for j := 0; j < len(v); j++ {
@@ -43,36 +43,40 @@ func reduce(input [][]int) []int {
 	}
 	return r
 }
-func WindowIncreased(input []int) int {
-	w, err := createWindows(input, 3)
+func WindowIncreased(input []int) (int, error) {
+	w, err := createWindows(input, defaultWindowSize)
 	if err != nil {
-		fmt.Printf("we screwed up!")
+		return 0, fmt.Errorf("problem while calculating window sum %d", err)
 	}
-	r := reduce(w)
-	return TimesIncreased(r)
+	r := sumUpWindows(w)
+	return TimesIncreased(r), nil
 }
 
-type sol struct {
+type solution struct {
 	input []int
 	file  string
 }
 
-func NewPart1(filename string) *sol {
-	return &sol{file: filename}
+func New(filename string) *solution {
+	return &solution{file: filename}
 }
 
-func (p *sol) FileName() string {
+func (p *solution) FileName() string {
 	return p.file
 }
+func (p *solution) Name() string {
+	return "Day 1"
+}
 
-func (p *sol) Load(reader io.Reader) error {
+func (p *solution) Load(reader io.Reader) error {
 	input, err := utils.ReadFile(reader, strconv.Atoi)
 	p.input = input
 	return err
 }
-func (p *sol) solve() int {
+func (p *solution) solve() (int, error) {
 	return WindowIncreased(p.input)
 }
-func (p *sol) Solve() string {
-	return fmt.Sprintf("%d", p.solve())
+func (p *solution) Solve() (string, error) {
+	res, err := p.solve()
+	return fmt.Sprintf("%d", res), err
 }
