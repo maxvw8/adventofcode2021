@@ -3,6 +3,7 @@ package main
 import (
 	"advent/pkg/advent"
 	"advent/pkg/day1"
+	"advent/pkg/day2"
 	"fmt"
 	"os"
 )
@@ -11,6 +12,7 @@ const inputPath = "../inputs/"
 
 var problems = []advent.Problem{
 	day1.New("1.txt"),
+	day2.New(),
 }
 
 func main() {
@@ -30,7 +32,7 @@ func main() {
 			fmt.Printf("Error solving problem %s", err)
 			os.Exit(1)
 		}
-		fmt.Printf("[%s] %s", p.Name(), sol)
+		fmt.Printf("[%s] %s\n", p.Name(), sol)
 	}
 
 }
