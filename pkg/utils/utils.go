@@ -10,6 +10,12 @@ import (
 // It returns the converted type or an error if the convertion was not possible
 type StringParseFn[T any] func(string) (T, error)
 
+type Problem interface {
+	FileName() string
+	Load(reader io.Reader) error
+	Solve() string
+}
+
 func ReadFile[T any](r io.Reader, parser func(string) (T, error)) ([]T, error) {
 	scanner := bufio.NewScanner(r)
 	scanner.Split(bufio.ScanLines)

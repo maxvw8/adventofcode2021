@@ -5,20 +5,27 @@ import (
 	"advent/pkg/utils"
 	"fmt"
 	"os"
-	"strconv"
 )
 
+const inputPath = "../inputs/"
+
+var problems = []utils.Problem{
+	part1.New("1.txt"),
+}
+
 func main() {
-	file, err := os.Open("../inputs/1.txt")
-	if err != nil {
-		fmt.Printf("Error while open file %s", err)
-		os.Exit(1)
+	for _, p := range problems {
+		file, err := os.Open(fmt.Sprintf("%s/%s", inputPath, p.FileName()))
+		if err != nil {
+			fmt.Printf("Error while open file %s", err)
+			os.Exit(1)
+		}
+		err = p.Load(file)
+		if err != nil {
+			fmt.Printf("Error parsing file %s", err)
+			os.Exit(1)
+		}
+		fmt.Printf("Result is %s", p.Solve())
 	}
-	input, err := utils.ReadFile(file, strconv.Atoi)
-	if err != nil {
-		fmt.Printf("Error parsing file %s", err)
-		os.Exit(1)
-	}
-	output := part1.TimesIncreased(input)
-	fmt.Printf("Result is: %d", output)
+
 }

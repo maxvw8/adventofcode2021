@@ -1,17 +1,20 @@
-package utils
+package utils_test
 
 import (
-	"reflect"
+	"advent/pkg/utils"
+
 	"strconv"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestParseInt(t *testing.T) {
 	tests := []struct {
 		Input    string
 		Expected []int
-		Fn       StringParseFn[int]
+		Fn       utils.StringParseFn[int]
 	}{
 		{"1\n2\n3\n4\n5\n", []int{1, 2, 3, 4, 5}, strconv.Atoi},
 		{"1\n2\n3\n4\n\n5\n", []int{1, 2, 3, 4, 5}, strconv.Atoi},
@@ -20,20 +23,10 @@ func TestParseInt(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.Input, func(t *testing.T) {
-			obtained, err := ReadFile(strings.NewReader(tc.Input), tc.Fn)
-			AssertNoError(err, t)
-
-			if !reflect.DeepEqual(tc.Expected, obtained) {
-				t.Errorf("Obtained %v, but expected %v", obtained, tc.Expected)
-			}
+			obtained, err := utils.ReadFile(strings.NewReader(tc.Input), tc.Fn)
+			assert.NoError(t, err)
+			assert.EqualValues(t, tc.Expected, obtained)
 		})
 	}
 
-}
-
-func AssertNoError(err error, t *testing.T) {
-	t.Helper()
-	if err != nil {
-		t.Errorf("Expected no error but was: %s", err)
-	}
 }
