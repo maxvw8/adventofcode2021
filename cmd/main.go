@@ -1,16 +1,16 @@
 package main
 
 import (
-	"advent/pkg/part1"
-	"advent/pkg/utils"
+	"advent/pkg/advent"
+	"advent/pkg/day1"
 	"fmt"
 	"os"
 )
 
 const inputPath = "../inputs/"
 
-var problems = []utils.Problem{
-	part1.New("1.txt"),
+var problems = []advent.Problem{
+	day1.NewPart1("1.txt"),
 }
 
 func main() {
